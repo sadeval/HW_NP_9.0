@@ -20,14 +20,11 @@ namespace CurrencyExchangeServer
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                // Имитация изменения курса валют
                 var usdToEur = 0.85 + _random.NextDouble() * 0.1;
                 var gbpToEur = 1.15 + _random.NextDouble() * 0.1;
 
-                // Отправка обновления всем клиентам через метод UpdateCurrencyRate
                 await _hubContext.Clients.All.SendAsync("UpdateCurrencyRate", usdToEur, gbpToEur);
 
-                // Задержка перед следующим обновлением
                 await Task.Delay(5000, stoppingToken);
             }
         }
